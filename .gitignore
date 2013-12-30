@@ -1,3 +1,43 @@
+# pycharm project files
+.idea
+
+# netbeans project files
+nbproject
+
+# eclipse-like project files
+.buildpath
+.project
+.settings
+
+# binary, compiled and executive files
+*.bin
+*.com
+*.dll
+*.exe
+
+# archived files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# cache, backup and other files
+Thumbs.db
+.DS_Store
+*~
+*.bak
+*.backup
+*.cache
+*.log
+*.sass-cache
+*.sql
+*.tmp
+
+# python, django project files
 *.log
 *.pot
 *.pyc
