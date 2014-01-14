@@ -10,8 +10,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-thisDir = os.path.dirname(__file__)
-BASE_DIR = os.path.dirname(thisDir)
+DEFAULT_APP_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.dirname(DEFAULT_APP_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -65,7 +65,7 @@ WSGI_APPLICATION = 'inv.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'data/db.sqlite3',
+        'NAME': 'inv/data/db.sqlite3',
     }
 }
 
@@ -89,11 +89,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    thisDir + STATIC_URL,
+    DEFAULT_APP_DIR + STATIC_URL,
 )
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    DEFAULT_APP_DIR + '/templates',
 )
