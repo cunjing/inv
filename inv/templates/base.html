@@ -1,40 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>INV</title>
+    <title>INVestment</title>
     <meta name="description" content="Investment">
     <meta name="viewport" content="width=device-width, initial-scale=1">{% load staticfiles %}
     <link rel="apple-touch-icon" sizes="152x152" href="{% static 'img/apple-touch-icon.png' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}"/>
 </head>
 <body>
     <!--[if lt IE 10]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div class="navbar navbar-inverse">
+    <header class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">INV</a>
+                <a class="navbar-brand" href="#">INVestment</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">xxxx</a></li>
-                    <li><a href="#">yyyy</a></li>
+                    <li><a href="#">Discover</a></li>
+                    <li><a href="#">Start</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Sign Up</a></li>
-                    <li><a href="#">Login In</a></li>
+                    <li><a href="#">Sign up</a></li>
+                    <li><a href="#">Log in</a></li>
                 </ul>
             </div>
         </div>
-    </div>
+    </header>
 
     <!-- Add your site or application content here -->
-    {% block content %}{% endblock %}
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <div class="row">
+            <div class="col-lg-3">
+                <h5>Discover</h5>
+                <ul class="list-unstyled">
+                    <li>Art</li>
+                    <li>Comics</li>
+                    <li>Design</li>
+                    <li>Fashion</li>
+                    <li>Games</li>
+                    <li>Music</li>
+                    <li>Technology</li>
+                </ul>
+            </div>
+            <div class="col-lg-3">
+                <h5>About</h5>
+                <ul class="list-unstyled">
+                    <li>What is INVestment</li>
+                    <li>Project Guidelines</li>
+                    <li>Meet our team</li>
+                    <li>Work at INVestment</li>
+                </ul>
+            </div>
+            <div class="col-lg-3">
+                <h5>Social</h5>
+                <ul class="list-unstyled">
+                    <li>Blog</li>
+                    <li>Twitter</li>
+                    <li>Facebook</li>
+                    <li>Google Plus</li>
+                </ul>
+            </div>
+            <div class="col-lg-3">
+                <h5>Mobile</h5>
+                <ul class="list-unstyled">
+                    <li>iPhone</li>
+                    <li>iPad</li>
+                    <li>Android</li>
+                    <li>Windows Phone</li>
+                    <li>Firefox OS</li>
+                    <li>Ubuntu Mobile</li>
+                </ul>
+            </div>
+        </div>
+        <hr/>
+        <div>
+            <ul class="pull-right list-inline">
+                <li><a href="#">Help</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li>&copy; 2014 Company, Inc.</li>
+            </ul>
+        </div>
+    </footer>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="{% static 'vendor/jquery/jquery-1.10.2.min.js' %}"><\/script>')</script>
