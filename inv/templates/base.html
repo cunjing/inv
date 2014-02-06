@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>INVestment</title>
+    <title>Investment</title>
     <meta name="description" content="Investment">
     <meta name="viewport" content="width=device-width, initial-scale=1">{% load staticfiles %}
     <link rel="apple-touch-icon" sizes="152x152" href="{% static 'img/apple-touch-icon.png' %}">
@@ -15,10 +15,10 @@
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <header class="navbar navbar-default navbar-static-top">
+    <header id="base-header" class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">INVestment</a>
+                <a class="navbar-brand" href="/">Investment</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -26,8 +26,8 @@
                     <li><a href="#">Start</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Sign up</a></li>
-                    <li><a href="#">Log in</a></li>
+                    <li><a href="{% url 'account.views.sign_up' %}">Sign up</a></li>
+                    <li><a href="{% url 'account.views.sign_in' %}">Sign in</a></li>
                 </ul>
             </div>
         </div>
@@ -38,52 +38,44 @@
         {% block content %}{% endblock %}
     </div>
 
-    <footer>
+    <footer id="base-footer">
         <div class="row">
-            <div class="col-lg-3">
-                <h5>Discover</h5>
-                <ul class="list-unstyled">
-                    <li>Art</li>
-                    <li>Comics</li>
-                    <li>Design</li>
-                    <li>Fashion</li>
-                    <li>Games</li>
-                    <li>Music</li>
-                    <li>Technology</li>
-                </ul>
-            </div>
-            <div class="col-lg-3">
-                <h5>About</h5>
-                <ul class="list-unstyled">
-                    <li>What is INVestment</li>
-                    <li>Project Guidelines</li>
-                    <li>Meet our team</li>
-                    <li>Work at INVestment</li>
-                </ul>
-            </div>
-            <div class="col-lg-3">
-                <h5>Social</h5>
-                <ul class="list-unstyled">
-                    <li>Blog</li>
-                    <li>Twitter</li>
-                    <li>Facebook</li>
-                    <li>Google Plus</li>
-                </ul>
-            </div>
-            <div class="col-lg-3">
-                <h5>Mobile</h5>
-                <ul class="list-unstyled">
-                    <li>iPhone</li>
-                    <li>iPad</li>
-                    <li>Android</li>
-                    <li>Windows Phone</li>
-                    <li>Firefox OS</li>
-                    <li>Ubuntu Mobile</li>
-                </ul>
-            </div>
+            <ul class="col-md-3 list-unstyled">
+                <li><h5>Discover</h5></li>
+                <li>Art</li>
+                <li>Comics</li>
+                <li>Design</li>
+                <li>Fashion</li>
+                <li>Games</li>
+                <li>Music</li>
+                <li>Technology</li>
+            </ul>
+            <ul class="col-md-3 list-unstyled">
+                <li><h5>About</h5></li>
+                <li>What is Investment</li>
+                <li>Project Guidelines</li>
+                <li>Meet our team</li>
+                <li>Work at Investment</li>
+            </ul>
+            <ul class="col-md-3 list-unstyled">
+                <li><h5>Social</h5></li>
+                <li>Blog</li>
+                <li>Twitter</li>
+                <li>Facebook</li>
+                <li>Google Plus</li>
+            </ul>
+            <ul class="col-md-3 list-unstyled">
+                <li><h5>Mobile</h5></li>
+                <li>iPhone</li>
+                <li>iPad</li>
+                <li>Android</li>
+                <li>Windows Phone</li>
+                <li>Firefox OS</li>
+                <li>Ubuntu Mobile</li>
+            </ul>
         </div>
-        <hr/>
-        <div>
+        <hr class="row"/>
+        <div class="row">
             <ul class="pull-right list-inline">
                 <li><a href="#">Help</a></li>
                 <li><a href="#">Contact</a></li>
