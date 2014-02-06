@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,8 +7,7 @@
     <meta name="description" content="Investment">
     <meta name="viewport" content="width=device-width, initial-scale=1">{% load staticfiles %}
     <link rel="apple-touch-icon" sizes="152x152" href="{% static 'img/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" media="screen">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">{% load bootstrap3 %}{% bootstrap_css %}
     <link rel="stylesheet" href="{% static 'css/base.css' %}"/>
 </head>
 <body>
@@ -90,13 +89,11 @@
                 <li><a href="#">Contact</a></li>
                 <li><a href="#">Terms of Use</a></li>
                 <li><a href="#">Privacy Policy</a></li>
-                <li>&copy; 2014 Company, Inc.</li>
+                <li>&copy; 2014 xxxx, Inc.</li>
             </ul>
         </div>
     </footer>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="{% static 'vendor/jquery/jquery-1.10.2.min.js' %}"><\/script>')</script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% bootstrap_jquery_url %}"></script>{% bootstrap_javascript %}
 </body>
 </html>
