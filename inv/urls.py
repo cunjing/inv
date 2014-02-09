@@ -7,7 +7,7 @@ import account.views
 
 urlpatterns = patterns('',
     url(r'^$', account.views.index),
-    url(r'^sign_in/', account.views.sign_in),
+    url(r'^sign_in/$', account.views.sign_in),
     url(r'^sign_up/', account.views.sign_up),
     url(r'^logout/', account.views.logout),
     url(r'^home/', account.views.home),
