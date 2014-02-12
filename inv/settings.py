@@ -98,3 +98,7 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     DEFAULT_APP_DIR + '/templates',
 )
+
+AUTHENTICATION_BACKENDS = (
+    'account.backends.EmailAuthBackend',
+)
