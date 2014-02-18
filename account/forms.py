@@ -4,13 +4,17 @@ from django.contrib.auth import authenticate
 
 
 class SignInForm(forms.Form):
-    email = forms.EmailField(label='Email', max_length=75, widget=forms.EmailInput(attrs={
+    """
+    sign in form
+    """
+
+    email = forms.EmailField(label='Email', min_length=4, max_length=75, widget=forms.EmailInput(attrs={
         'class': 'form-control',
         'placeholder': 'Enter your email',
         'required': True,
         'tabindex': 1,
     }))
-    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={
+    password = forms.CharField(label='Password', min_length=4, widget=forms.PasswordInput(attrs={
         'class': 'form-control',
         'required': True,
         'tabindex': 2,
@@ -21,23 +25,30 @@ class SignInForm(forms.Form):
         super(SignInForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        """
-        clean email, password and authenticate it.
-        @return User
-        """
-        email = self.cleaned_data.get('email')
-        password = self.cleaned_data.get('password')
+        cleaned_data = super(SignInForm, self).clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+        msg = ''
+
         if email and password:
             self.user_cache = authenticate(email=email, password=password)
             if self.user_cache is None:
-                raise forms.ValidationError(self.error_messages['invalid_login'])
+                msg = u'invalid email or password.'
             elif not self.user_cache.is_active:
-                raise forms.ValidationError(self.error_messages['inactive'])
-        # self.check_for_test_cookie()
-        return self.cleaned_data
+                msg = u'your account is not active.'
+        if msg:
+            self._errors['submit'] = self.error_class([msg])
+            del cleaned_data['email']
+            del cleaned_data['password']
+
+        return cleaned_data
 
 
 class SignUpForm(forms.Form):
+    """
+    sign up form
+    """
+
     account_type = forms.NumberInput()
     email = forms.EmailInput()
     password = forms.PasswordInput()

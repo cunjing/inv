@@ -11,15 +11,13 @@ from forms import *
 
 @csrf_protect
 def sign_in(request):
-    rtn = None
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
-        if email and password:
-            user = authenticate(email=email, password=password)
-            if user is not None:
-                login(request, user)
-                rtn = HttpResponseRedirect(reverse('inv.views.index'))
+        form = SignInForm(request.POST)
+        if form.is_valid():
+            login(request, form.user_cache)
+            rtn = HttpResponseRedirect(reverse('inv.views.index'))
+        else:
+            rtn = render(request, 'account/sign_in.html', {'form': form})
     else:
         form = SignInForm()
         rtn = render(request, 'account/sign_in.html', {'form': form})

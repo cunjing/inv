@@ -7,7 +7,7 @@
     <meta name="description" content="Investment">
     <meta name="viewport" content="width=device-width, initial-scale=1">{% load staticfiles %}
     <link rel="apple-touch-icon" sizes="152x152" href="{% static 'img/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">{% load bootstrap3 %}{% bootstrap_css %}
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">{% load bootstrap3 %}{% bootstrap_css %}
     <link rel="stylesheet" href="{% static 'css/base.css' %}"/>
 </head>
 <body>
@@ -22,8 +22,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Discover</a></li>
-                    <li><a href="#">Start</a></li>
+                    <li><a href="/">Discover</a></li>
+                    <li><a href="/">Start</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'account.views.sign_up' %}">Sign up</a></li>
@@ -40,8 +40,8 @@
 
     <footer id="base-footer">
         <div class="row">
-            <ul class="col-md-3 list-unstyled">
-                <li><h5>Discover</h5></li>
+            <ul class="col-md-offset-1 col-md-2 list-unstyled">
+                <li><strong>Discover</strong></li>
                 <li>Art</li>
                 <li>Comics</li>
                 <li>Design</li>
@@ -50,22 +50,22 @@
                 <li>Music</li>
                 <li>Technology</li>
             </ul>
-            <ul class="col-md-3 list-unstyled">
-                <li><h5>About</h5></li>
+            <ul class="col-md-2 list-unstyled">
+                <li><strong>About</strong></li>
                 <li>What is Investment</li>
                 <li>Project Guidelines</li>
                 <li>Meet our team</li>
                 <li>Work at Investment</li>
             </ul>
-            <ul class="col-md-3 list-unstyled">
-                <li><h5>Social</h5></li>
+            <ul class="col-md-2 list-unstyled">
+                <li><strong>Social</strong></li>
                 <li>Blog</li>
                 <li>Twitter</li>
                 <li>Facebook</li>
                 <li>Google Plus</li>
             </ul>
-            <ul class="col-md-3 list-unstyled">
-                <li><h5>Mobile</h5></li>
+            <ul class="col-md-2 list-unstyled">
+                <li><strong>Mobile</strong></li>
                 <li>iPhone</li>
                 <li>iPad</li>
                 <li>Android</li>
@@ -73,17 +73,18 @@
                 <li>Firefox OS</li>
                 <li>Ubuntu Mobile</li>
             </ul>
+            <div class="col-md-3">
+                <img class="border-line" src="{% static 'img/qr.png' %}" alt="Investment QR code"/>
+            </div>
         </div>
-        <hr class="row"/>
-        <div class="row text-right">
-            <ul class="list-inline">
-                <li><a href="#">Help</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Terms of Use</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li>&copy; 2014 xxxx, Inc.</li>
-            </ul>
-        </div>
+        <hr/>
+        <ul class="list-inline text-right">
+            <li><a href="/">Help</a></li>
+            <li><a href="/">Contact</a></li>
+            <li><a href="/">Terms of Use</a></li>
+            <li><a href="/">Privacy Policy</a></li>
+            <li>&copy; 2014 unknown, Inc.</li>
+        </ul>
     </footer>
 
     <script src="{% bootstrap_jquery_url %}"></script>{% bootstrap_javascript %}

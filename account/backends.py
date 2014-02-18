@@ -5,13 +5,19 @@ from django.contrib.auth.models import User
 
 class EmailAuthBackend(ModelBackend):
     """
-    Authentication by email.
+    Authentication backend with email override username.
     """
 
     def authenticate(self, email=None, password=None, username=None, is_staff=None):
         """
-        email for frontend, or username for backend
-        @return User
+        authenticate user's identity.
+
+        @param (string) email for frontend
+        @param (string) password
+        @param (string) username for django admin (backend)
+        @param (bool)   is_staff
+
+        @return (User)
         """
         rtn = None
         if email is not None:
@@ -22,8 +28,6 @@ class EmailAuthBackend(ModelBackend):
             if is_staff is not None:
                 if user.is_staff == is_staff:
                     rtn = user
-                else:
-                    rtn = None
             else:
                 rtn = user
         return rtn
