@@ -28,18 +28,21 @@ class SignInForm(forms.Form):
         cleaned_data = super(SignInForm, self).clean()
         email = cleaned_data.get('email')
         password = cleaned_data.get('password')
-        msg = ''
 
+        msg = u'invalid email or password.'
         if email and password:
             self.user_cache = authenticate(email=email, password=password)
-            if self.user_cache is None:
-                msg = u'invalid email or password.'
-            elif not self.user_cache.is_active:
-                msg = u'your account is not active.'
+            if self.user_cache is not None:
+                if not self.user_cache.is_active:
+                    msg = u'your account is not active.'
+                else:
+                    msg = ''
         if msg:
             self._errors['submit'] = self.error_class([msg])
-            del cleaned_data['email']
-            del cleaned_data['password']
+            if None != cleaned_data.get('email'):
+                del cleaned_data['email']
+            if None != cleaned_data.get('password'):
+                del cleaned_data['password']
 
         return cleaned_data
 

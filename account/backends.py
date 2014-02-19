@@ -20,10 +20,13 @@ class EmailAuthBackend(ModelBackend):
         @return (User)
         """
         rtn = None
-        if email is not None:
-            user = User.objects.get(email=email)
-        else:
-            user = User.objects.get(username=username)
+        try:
+            if email is not None:
+                user = User.objects.get(email=email)
+            else:
+                user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            user = None
         if user is not None and user.check_password(password):
             if is_staff is not None:
                 if user.is_staff == is_staff:

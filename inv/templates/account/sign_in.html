@@ -2,25 +2,25 @@
 {% block title %}Sign in | {% endblock %}
 
 {% block content %}
-    <div class="col-md-4 col-md-offset-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">Sign in</h4>
-            </div>
-            <div class="panel-body">
-                <form method="post">{% csrf_token %}
-                    <div class="form-group">
-                        <label for="email">Email</label>{{ form.email }}
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password <a href="/">(forgot password?)</a></label>{{ form.password }}
-                    </div>
-                    <div class="form-group text-right">
-                        <span class="text-danger">{{ form.errors.submit.as_text }}</span>
-                        <button type="submit" class="btn btn-default" tabindex="3">Sign in</button>
-                    </div>
-                </form>
-            </div>
+<div class="col-md-4 col-md-offset-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">Sign in</h4>
+        </div>
+        <div class="panel-body">
+            <form method="post">{% csrf_token %}
+                <div class="form-group">
+                    <label for="email">Email</label>{{ form.email }}
+                </div>
+                <div class="form-group">
+                    <label for="password">Password <a href="/">(forgot password?)</a></label>{{ form.password }}
+                </div>
+                <div class="form-group text-right">
+                    <span class="text-danger">{{ form.errors.submit.as_text }}</span>
+                    <button type="submit" class="btn btn-default" tabindex="3">Sign in</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 {% endblock %}

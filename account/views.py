@@ -15,13 +15,10 @@ def sign_in(request):
         form = SignInForm(request.POST)
         if form.is_valid():
             login(request, form.user_cache)
-            rtn = HttpResponseRedirect(reverse('inv.views.index'))
-        else:
-            rtn = render(request, 'account/sign_in.html', {'form': form})
+            return HttpResponseRedirect(reverse('inv.views.index'))
     else:
         form = SignInForm()
-        rtn = render(request, 'account/sign_in.html', {'form': form})
-    return rtn
+    return render(request, 'account/sign_in.html', {'form': form})
 
 
 @csrf_protect
