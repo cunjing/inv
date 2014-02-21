@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- Copyright 2014 unknown. All rights reserved. -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{% block title %}{% endblock %}Investment</title>
+    <title>{% block title %}{% endblock %} | Investment</title>
     <meta name="description" content="Investment">
     <meta name="viewport" content="width=device-width, initial-scale=1">{% load staticfiles %}
     <link rel="apple-touch-icon" sizes="152x152" href="{% static 'img/apple-touch-icon.png' %}">
@@ -11,9 +12,9 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}"/>
 </head>
 <body>
-    <!--[if lt IE 10]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+<!--[if lt IE 10]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
 
     <header id="base-header" class="navbar navbar-default navbar-static-top">
         <div class="container">
@@ -26,8 +27,13 @@
                     <li><a href="/">Start</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <li>{{ user.email }}</li>
+                    <li><a href="{% url 'account.views.logout' %}">Logout</a></li>
+                {% else %}
                     <li><a href="{% url 'account.views.sign_up' %}">Sign up</a></li>
                     <li><a href="{% url 'account.views.sign_in' %}">Sign in</a></li>
+                {% endif %}
                 </ul>
             </div>
         </div>

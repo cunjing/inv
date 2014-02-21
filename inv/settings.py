@@ -74,7 +74,8 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# default value is 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -101,4 +102,10 @@ TEMPLATE_DIRS = (
 
 AUTHENTICATION_BACKENDS = (
     'account.backends.EmailAuthBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.auth',
+    'django.core.context_processors.i18n',
+    # 'inv.context_processors.base',
 )
