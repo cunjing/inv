@@ -13,24 +13,19 @@
             {% endif %}
             <form method="post">{% csrf_token %}
                 <div class="form-group">
-                    <select class="form-control" id="account-type" name="account_type" required="">
-                        <option value="0">Account Type</option>
-                        <option value="1">Investee</option>
-                        <option value="2">Investor</option>
-                        <option value="3">Service Provider</option>
-                        <option value="4">Government</option>
+                    <select id="id_account_type" name="account_type" class="form-control" required="" tabindex="1">
+                    {% for row in form.account_type.choices %}
+                        <option value="{{ row.key }}">{{ row.text }}</option>
+                    {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required=""/>
+                    <label for="id_email">Email</label>{{ form.email }}
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required=""/>
+                    <label for="id_password">Password</label>{{ form.password }}
                 </div>
                 <div class="form-group text-right">
-                    <span class="text-danger">{{ form.errors.submit.as_text }}</span>
                     <button type="submit" class="btn btn-default" tabindex="4">Sign up</button>
                 </div>
             </form>

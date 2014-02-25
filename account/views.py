@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 
 from forms import *
@@ -11,33 +11,31 @@ from forms import *
 
 @csrf_protect
 def sign_in(request):
+    form = SignInForm()
     if request.method == 'POST':
         form = SignInForm(request.POST)
         if form.is_valid():
             login(request, form.user_cache)
             return HttpResponseRedirect(reverse('inv.views.index'))
-    else:
-        form = SignInForm()
     return render(request, 'account/sign_in.html', {'form': form})
 
 
 @csrf_protect
 def sign_up(request):
-    rtn = None
+    form = SignUpForm()
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            rtn = render(request, 'account/sign_up.html', {'form': form})
-    else:
-        form = SignUpForm()
-        rtn = render(request, 'account/sign_up.html', {'form': form})
-    return rtn
+            user = form.create_user()
+            if user:
+                login(request, user)
+                return HttpResponseRedirect(reverse('inv.views.index'))
+    return render(request, 'account/sign_up.html', {'form': form})
 
 
 def logout(request):
-    logout(request)
-    # return HttpResponseRedirect(reverse('depotapp.views.store'))
-    pass
+    auth_logout(request)
+    return HttpResponseRedirect(reverse('inv.views.index'))
 
 
 @login_required

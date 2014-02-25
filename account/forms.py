@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from django.db import transaction
+from models import Profile
 
 
 class SignInForm(forms.Form):
@@ -14,7 +17,8 @@ class SignInForm(forms.Form):
         'required': True,
         'tabindex': 1,
     }))
-    password = forms.CharField(label='Password', min_length=4, widget=forms.PasswordInput(attrs={
+
+    password = forms.CharField(label='Password', min_length=6, max_length=128, widget=forms.PasswordInput(attrs={
         'class': 'form-control',
         'required': True,
         'tabindex': 2,
@@ -52,12 +56,60 @@ class SignUpForm(forms.Form):
     sign up form
     """
 
-    account_type = forms.NumberInput()
-    email = forms.EmailInput()
-    password = forms.PasswordInput()
+    _account_type_allowed = (
+        {'key': '', 'text': 'Account Type'},
+        {'key': 1, 'text': 'Investee'},
+        {'key': 2, 'text': 'Investor'},
+        {'key': 3, 'text': 'Service Provider'},
+        {'key': 4, 'text': 'Government'},
+    )
+    account_type = forms.Select(choices=_account_type_allowed)
+
+    email = forms.EmailField(label='Email', min_length=4, max_length=75, widget=forms.EmailInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Enter your email',
+        'required': True,
+        'tabindex': 2,
+    }))
+
+    password = forms.CharField(label='Password', min_length=6, max_length=128, widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'required': True,
+        'tabindex': 3,
+    }))
 
     def clean_account_type(self):
-        account_type = self.cleaned_data['account_type']
-        if account_type not in (1, 2, 3, 4):
-            raise forms.ValidationError('Invalid account type')
+        account_type = int(self.cleaned_data['account_type'])
+        tmp = False
+        for row in self._account_type_allowed:
+            if account_type == row.key:
+                tmp = True
+                break
+        if not tmp:
+            raise forms.ValidationError(u'Invalid account type.')
         return account_type
+
+    def clean_email(self):
+        email = User.objects.filter(email=self.cleaned_data['email'])
+        if email:
+            raise forms.ValidationError(u'Email has been existed.')
+        return self.cleaned_data['email']
+
+    def create_user(self):
+        """
+        create user and it's profile.
+
+        @return (User)
+        """
+
+        account_type = self.cleaned_data['account_type']
+        username = email = self.cleaned_data['email']
+        password = self.cleaned_data['password']
+
+        with transaction.atomic():
+            user = User.objects.create_user(username, email, password)
+            user.save()
+            profile = Profile.objects.create(user_id=user.id, account_type=account_type)
+            profile.save()
+
+        return user

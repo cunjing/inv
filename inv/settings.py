@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'south',
     'django_admin_bootstrapped.bootstrap3',
     'django_admin_bootstrapped',
 
@@ -41,7 +42,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'bootstrap3',
     'account',
 )
 
@@ -105,7 +105,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.auth',
+    'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.i18n',
     # 'inv.context_processors.base',
 )
