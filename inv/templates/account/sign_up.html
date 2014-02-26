@@ -8,22 +8,18 @@
             <h4 class="panel-title">Sign up</h4>
         </div>
         <div class="panel-body">
-            {% if form.errors %}
-                <p class="alert alert-error">{{ form.errors }}</p>
-            {% endif %}
             <form method="post">{% csrf_token %}
                 <div class="form-group">
-                    <select id="id_account_type" name="account_type" class="form-control" required="" tabindex="1">
-                    {% for row in form.account_type.choices %}
-                        <option value="{{ row.key }}">{{ row.text }}</option>
-                    {% endfor %}
-                    </select>
+                    {{ form.account_type }}
+                    <span class="text-danger">{{ form.errors.account_type.as_text }}</span>
                 </div>
                 <div class="form-group">
                     <label for="id_email">Email</label>{{ form.email }}
+                    <span class="text-danger">{{ form.errors.email.as_text }}</span>
                 </div>
                 <div class="form-group">
                     <label for="id_password">Password</label>{{ form.password }}
+                    <span class="text-danger">{{ form.errors.password.as_text }}</span>
                 </div>
                 <div class="form-group text-right">
                     <button type="submit" class="btn btn-default" tabindex="4">Sign up</button>

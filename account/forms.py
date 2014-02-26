@@ -11,14 +11,14 @@ class SignInForm(forms.Form):
     sign in form
     """
 
-    email = forms.EmailField(label='Email', min_length=4, max_length=75, widget=forms.EmailInput(attrs={
+    email = forms.EmailField(label='Email', max_length=75, min_length=4, widget=forms.EmailInput(attrs={
         'class': 'form-control',
         'placeholder': 'Enter your email',
         'required': True,
         'tabindex': 1,
     }))
 
-    password = forms.CharField(label='Password', min_length=6, max_length=128, widget=forms.PasswordInput(attrs={
+    password = forms.CharField(label='Password', max_length=128, min_length=6, widget=forms.PasswordInput(attrs={
         'class': 'form-control',
         'required': True,
         'tabindex': 2,
@@ -33,12 +33,12 @@ class SignInForm(forms.Form):
         email = cleaned_data.get('email')
         password = cleaned_data.get('password')
 
-        msg = u'invalid email or password.'
+        msg = u'Invalid email or password.'
         if email and password:
             self.user_cache = authenticate(email=email, password=password)
             if self.user_cache is not None:
                 if not self.user_cache.is_active:
-                    msg = u'your account is not active.'
+                    msg = u'Your account is not active.'
                 else:
                     msg = ''
         if msg:
@@ -57,37 +57,31 @@ class SignUpForm(forms.Form):
     """
 
     _account_type_allowed = (
-        {'key': '', 'text': 'Account Type'},
-        {'key': 1, 'text': 'Investee'},
-        {'key': 2, 'text': 'Investor'},
-        {'key': 3, 'text': 'Service Provider'},
-        {'key': 4, 'text': 'Government'},
+        ('', 'Account Type'),
+        (1, 'Investee'),
+        (2, 'Investor'),
+        (3, 'Service Provider'),
+        (4, 'Government'),
     )
-    account_type = forms.Select(choices=_account_type_allowed)
 
-    email = forms.EmailField(label='Email', min_length=4, max_length=75, widget=forms.EmailInput(attrs={
+    account_type = forms.IntegerField(max_value=4, min_value=1, widget=forms.Select(attrs={
+        'class': 'form-control',
+        'required': True,
+        'tabindex': 1,
+    }, choices=_account_type_allowed))
+
+    email = forms.EmailField(label='Email', max_length=75, min_length=4, widget=forms.EmailInput(attrs={
         'class': 'form-control',
         'placeholder': 'Enter your email',
         'required': True,
         'tabindex': 2,
     }))
 
-    password = forms.CharField(label='Password', min_length=6, max_length=128, widget=forms.PasswordInput(attrs={
+    password = forms.CharField(label='Password', max_length=128, min_length=6, widget=forms.PasswordInput(attrs={
         'class': 'form-control',
         'required': True,
         'tabindex': 3,
     }))
-
-    def clean_account_type(self):
-        account_type = int(self.cleaned_data['account_type'])
-        tmp = False
-        for row in self._account_type_allowed:
-            if account_type == row.key:
-                tmp = True
-                break
-        if not tmp:
-            raise forms.ValidationError(u'Invalid account type.')
-        return account_type
 
     def clean_email(self):
         email = User.objects.filter(email=self.cleaned_data['email'])
@@ -108,8 +102,9 @@ class SignUpForm(forms.Form):
 
         with transaction.atomic():
             user = User.objects.create_user(username, email, password)
+            user.backend = 'account.backends.EmailAuthBackend'
             user.save()
-            profile = Profile.objects.create(user_id=user.id, account_type=account_type)
+            profile = Profile.objects.create(user_id=user, account_type=account_type)
             profile.save()
 
         return user

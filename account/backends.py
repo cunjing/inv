@@ -12,7 +12,7 @@ class EmailAuthBackend(ModelBackend):
         """
         authenticate user's identity.
 
-        @param (string) email for frontend
+        @param (string) email    for frontend
         @param (string) password
         @param (string) username for django admin (backend)
         @param (bool)   is_staff
