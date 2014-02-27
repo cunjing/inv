@@ -56,7 +56,7 @@ class SignUpForm(forms.Form):
     sign up form
     """
 
-    _account_type_allowed = (
+    _user_type_id_allowed = (
         ('', 'Account Type'),
         (1, 'Investee'),
         (2, 'Investor'),
@@ -64,11 +64,11 @@ class SignUpForm(forms.Form):
         (4, 'Government'),
     )
 
-    account_type = forms.IntegerField(max_value=4, min_value=1, widget=forms.Select(attrs={
+    user_type_id = forms.IntegerField(max_value=4, min_value=1, widget=forms.Select(attrs={
         'class': 'form-control',
         'required': True,
         'tabindex': 1,
-    }, choices=_account_type_allowed))
+    }, choices=_user_type_id_allowed))
 
     email = forms.EmailField(label='Email', max_length=75, min_length=4, widget=forms.EmailInput(attrs={
         'class': 'form-control',
@@ -96,7 +96,7 @@ class SignUpForm(forms.Form):
         @return (User)
         """
 
-        account_type = self.cleaned_data['account_type']
+        user_type_id = self.cleaned_data['user_type_id']
         username = email = self.cleaned_data['email']
         password = self.cleaned_data['password']
 
@@ -104,7 +104,7 @@ class SignUpForm(forms.Form):
             user = User.objects.create_user(username, email, password)
             user.backend = 'account.backends.EmailAuthBackend'
             user.save()
-            profile = Profile.objects.create(user_id=user, account_type=account_type)
+            profile = Profile.objects.create(user_id=user, user_type_id=user_type_id)
             profile.save()
 
         return user
