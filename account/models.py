@@ -3,30 +3,44 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class UserType(models.Model):
+    """
+    user type
+    investee, investor, service provider, government
+    """
+
+    class Meta:
+        db_table = 'account_user_type'
+
+    name = models.CharField(max_length=40)
+
+    def __unicode__(self):
+        return self.name
+
+
+class IdentityType(models.Model):
+    """
+    identity Type
+    secretary, manager, clerk
+    identity type default 0 means Profile.leader == 0, and current user is a leader.
+    when Profile.leader > 0, the field Profile.identity_type must be greater than 0.
+    """
+
+    class Meta:
+        db_table = 'account_identity_type'
+
+    name = models.CharField(max_length=40)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Profile(models.Model):
     """
     more information about an account of user.
     """
 
     user = models.OneToOneField(User, primary_key=True)
-
-    # see dict _user_type_allowed
-    user_type = models.PositiveSmallIntegerField()
-
-    # current user's leader
-    leader = models.ForeignKey(User, default=0, related_name='leader')
-
-    # identity Type: 1 secretary, 2 manager, 3 clerk
-    # identity type default 0 means top_user_id == 0, and current user is a leader.
-    # when top_user_id > 0, this field must be greater than 0, and in IdentityType list.
-    identity_type = models.PositiveSmallIntegerField(default=0)
-
-    _user_type_allowed = {
-        1: u'investee',
-        2: u'investor',
-        3: u'service provider',
-        4: u'government',
-    }
-
-    def __unicode__(self):
-        return self._user_type_allowed.get(self.user_type)
+    user_type = models.ForeignKey(UserType)
+    leader = models.ForeignKey(User, default=0, related_name='leader')  # user's leader
+    identity_type = models.ForeignKey(IdentityType, default=0)

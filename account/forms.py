@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.db import transaction
-from models import Profile
+from models import UserType, Profile
 
 
 class SignInForm(forms.Form):
@@ -56,19 +56,20 @@ class SignUpForm(forms.Form):
     sign up form
     """
 
-    _user_type_id_allowed = (
+    _user_type_id_allowed = [
         ('', 'Account Type'),
         (1, 'Investee'),
         (2, 'Investor'),
         (3, 'Service Provider'),
         (4, 'Government'),
-    )
+    ]
 
-    user_type_id = forms.IntegerField(max_value=4, min_value=1, widget=forms.Select(attrs={
+    user_type_id = forms.IntegerField(min_value=1, widget=forms.Select(attrs={
         'class': 'form-control',
         'required': True,
         'tabindex': 1,
     }, choices=_user_type_id_allowed))
+    # user_type_id = forms.ModelChoiceField(queryset=UserType.objects.all(), empty_label='Account Type', required=True)
 
     email = forms.EmailField(label='Email', max_length=75, min_length=4, widget=forms.EmailInput(attrs={
         'class': 'form-control',

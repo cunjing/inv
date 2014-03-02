@@ -8,15 +8,19 @@ from account.models import Profile
 
 class ProfileInline(admin.StackedInline):
     model = Profile
-    fk_name = 'user_id'
+    fk_name = 'user'
     extra = 1
     can_delete = False
     verbose_name_plural = 'profile'
 
+    def formfield_for_choice_field(self, db_field, request=None, **kwargs):
+        if db_field.name == 'leader':
+            kwargs['choices'][0] = (0, 'none')
+        return super(ProfileInline, self).formfield_for_choice_field(db_field, request, **kwargs)
 
-class UserAdmin(UserAdmin):
-    inlines = (ProfileInline,)
 
+class InvUserAdmin(UserAdmin):
+    inlines = [ProfileInline, ]
 
 admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+admin.site.register(User, InvUserAdmin)
