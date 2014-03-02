@@ -21,3 +21,7 @@ def terms(request):
 
 def privacy(request):
     return render_to_response('inv/index.html')
+
+
+def import_excel(request):
+    return render_to_response('inv/index.html')

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from account.models import UserType
+from django.contrib.auth.models import User
 
 
 class QuestionType(models.Model):
@@ -9,7 +9,13 @@ class QuestionType(models.Model):
     for all user types.
     """
 
-    title = models.CharField(max_length=40)
+    class Meta:
+        db_table = 'matching_question_type'
+
+    name = models.CharField(max_length=40)
+
+    def __unicode__(self):
+        return self.name
 
 
 class QuestionGroup(models.Model):
@@ -17,8 +23,14 @@ class QuestionGroup(models.Model):
     question group.
     """
 
-    user_type_id = models.ForeignKey(UserType, db_column='user_type_id', related_name='user_type')
-    title = models.CharField(max_length=40)
+    class Meta:
+        db_table = 'matching_question_group'
+
+    user_type = models.PositiveSmallIntegerField()
+    name = models.CharField(max_length=40)
+
+    def __unicode__(self):
+        return self.name
 
 
 class QuestionSubGroup(models.Model):
@@ -26,8 +38,14 @@ class QuestionSubGroup(models.Model):
     question sub-group.
     """
 
-    group_id = models.ForeignKey(QuestionGroup, db_column='group_id', related_name='group')
-    title = models.CharField(max_length=40)
+    class Meta:
+        db_table = 'matching_question_sub_group'
+
+    question_group = models.ForeignKey(QuestionGroup)
+    name = models.CharField(max_length=40)
+
+    def __unicode__(self):
+        return self.name
 
 
 class QuestionScreen(models.Model):
@@ -35,8 +53,14 @@ class QuestionScreen(models.Model):
     question screen.
     """
 
-    user_type_id = models.ForeignKey(UserType, db_column='user_type_id', related_name='user_type')
-    title = models.CharField(max_length=40)
+    class Meta:
+        db_table = 'matching_question_screen'
+
+    user_type = models.PositiveSmallIntegerField()
+    name = models.CharField(max_length=40)
+
+    def __unicode__(self):
+        return self.name
 
 
 class QuestionSubScreen(models.Model):
@@ -44,8 +68,14 @@ class QuestionSubScreen(models.Model):
     question sub-screen.
     """
 
-    screen_id = models.ForeignKey(QuestionScreen, db_column='screen_id', related_name='screen')
-    title = models.CharField(max_length=40)
+    class Meta:
+        db_table = 'matching_question_sub_screen'
+
+    question_screen = models.ForeignKey(QuestionScreen)
+    name = models.CharField(max_length=40)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Question(models.Model):
@@ -53,29 +83,110 @@ class Question(models.Model):
     question.
     """
 
-    user_type_id = models.ForeignKey(UserType, db_column='user_type_id', related_name='user_type')
-    group_id = models.ForeignKey(QuestionGroup, db_column='group_id', related_name='group')
-    sub_group_id = models.ForeignKey(QuestionSubGroup, db_column='sub_group_id', related_name='sub_group')
-    screen_id = models.ForeignKey(QuestionScreen, db_column='screen_id', related_name='screen')
-    sub_screen_id = models.ForeignKey(QuestionSubScreen, db_column='sub_screen_id', related_name='sub_screen')
-    type_id = models.ForeignKey(QuestionType, db_column='type_id', related_name='type')
+    user_type = models.PositiveSmallIntegerField()
+    question_group = models.ForeignKey(QuestionGroup)
+    question_sub_group = models.ForeignKey(QuestionSubGroup)
+    question_screen = models.ForeignKey(QuestionScreen)
+    question_sub_screen = models.ForeignKey(QuestionSubScreen)
+    question_type = models.ForeignKey(QuestionType)
     order_in_sub_screen = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=256)
+
+    def __unicode__(self):
+        return self.title
 
 
 class QuestionOfAnswerChoice(models.Model):
     """
     question of answer choice.
+    some choices for a user to answer a question.
     """
 
-    question_id = models.ForeignKey(Question, db_column='question_id', related_name='question')
+    class Meta:
+        db_table = 'matching_question_of_answer_choice'
+
+    question = models.ForeignKey(Question)
     order = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=256)
 
+    def __unicode__(self):
+        return self.title
 
-class Answer(models.Model):
+
+class AnswerChoice(models.Model):
     """
-    answer.
-    TODO: user gives answers for questions.
+    answer choice.
+    user gives answer choice(s) for a question.
     """
-    pass
+
+    class Meta:
+        db_table = 'matching_answer_choice'
+
+    user = models.ForeignKey(User)
+    question = models.ForeignKey(Question)
+    date_answered = models.DateTimeField()  # date last answered
+    answer = models.ForeignKey(QuestionOfAnswerChoice)  # user can re-choice to answer
+
+
+class AnswerText(models.Model):
+    """
+    answer text.
+    user gives text answer(s) for a question.
+    """
+
+    class Meta:
+        db_table = 'matching_answer_text'
+
+    user = models.ForeignKey(User)
+    question = models.ForeignKey(Question)
+    date_answered = models.DateTimeField()
+    order = models.PositiveSmallIntegerField(default=0)
+    answer = models.CharField(max_length=256)
+
+    def __unicode__(self):
+        return self.answer
+
+
+class AnswerNumber(models.Model):
+    """
+    answer number.
+    user gives number answer(s) for a question.
+    """
+
+    class Meta:
+        db_table = 'matching_answer_number'
+
+    user = models.ForeignKey(User)
+    question = models.ForeignKey(Question)
+    date_answered = models.DateTimeField()
+    order = models.PositiveSmallIntegerField(default=0)
+    answer = models.IntegerField()
+
+
+class AnswerUpload(models.Model):
+    """
+    answer upload.
+    user upload file(s) for a question.
+    """
+    
+    class Meta:
+        db_table = 'matching_answer_upload'
+
+    user = models.ForeignKey(User)
+    question = models.ForeignKey(Question)
+    date_uploaded = models.DateTimeField()
+    date_answered = models.DateTimeField()  # date user last edit title
+    order = models.PositiveSmallIntegerField(default=0)
+    size = models.PositiveIntegerField()
+
+    # this field value pattern: md5(user_id+question_id+date_uploaded+size+file_ext_name+title)+random(10,99)
+    # saving path pattern: upload/file/dir/yyyy/mm/dd/<file_name+yyyymmddhhiissxxxxxx>
+    file_name = models.CharField(max_length=34)
+
+    # for downloading file name: title.file_ext_name
+    file_ext_name = models.CharField(max_length=4)
+
+    title = models.CharField(max_length=256)  # user can edit it
+
+    def __unicode__(self):
+        return self.title
