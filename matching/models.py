@@ -27,6 +27,7 @@ class QuestionGroup(models.Model):
         db_table = 'matching_question_group'
 
     user_type = models.PositiveSmallIntegerField()
+    order = models.PositiveSmallIntegerField()
     name = models.CharField(max_length=40)
 
     def __unicode__(self):
@@ -42,37 +43,9 @@ class QuestionSubGroup(models.Model):
         db_table = 'matching_question_sub_group'
 
     question_group = models.ForeignKey(QuestionGroup)
+    order = models.PositiveSmallIntegerField()
     name = models.CharField(max_length=40)
-
-    def __unicode__(self):
-        return self.name
-
-
-class QuestionScreen(models.Model):
-    """
-    question screen.
-    """
-
-    class Meta:
-        db_table = 'matching_question_screen'
-
-    user_type = models.PositiveSmallIntegerField()
-    name = models.CharField(max_length=40)
-
-    def __unicode__(self):
-        return self.name
-
-
-class QuestionSubScreen(models.Model):
-    """
-    question sub-screen.
-    """
-
-    class Meta:
-        db_table = 'matching_question_sub_screen'
-
-    question_screen = models.ForeignKey(QuestionScreen)
-    name = models.CharField(max_length=40)
+    title = models.CharField(max_length=256)
 
     def __unicode__(self):
         return self.name
@@ -86,10 +59,8 @@ class Question(models.Model):
     user_type = models.PositiveSmallIntegerField()
     question_group = models.ForeignKey(QuestionGroup)
     question_sub_group = models.ForeignKey(QuestionSubGroup)
-    question_screen = models.ForeignKey(QuestionScreen)
-    question_sub_screen = models.ForeignKey(QuestionSubScreen)
     question_type = models.ForeignKey(QuestionType)
-    order_in_sub_screen = models.PositiveSmallIntegerField()
+    order = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=256)
 
     def __unicode__(self):
