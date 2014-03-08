@@ -3,17 +3,48 @@
 <head>
 <meta charset="utf-8">
 <title>import excel</title>
+<style>
+    div.content {margin: 140px auto 0; width: 400px;}
+    div.in-form {margin: 10px 0;}
+    p {padding: 0 10px;}
+    p.error {color: red;}
+    p.success {color: green;}
+    .text-right {text-align: right;}
+</style>
 </head>
 <body>
-<h4>Import excel to Set Basic Data</h4>
-<hr/>
-<form method="post" enctype="multipart/form-data">
-    <input type="file" name="file"/>
-    <button type="submit">import</button>
-</form>
-<p>{{ info }}</p>
-<p>File name: {{ name }}</p>
-<p>File size: {{ size }} kb</p>
-<p>handled rows: {{ handled_rows }}</p>
+<div class="content">
+    <h4>IMPORT investee question excel TO SET BASIC DATA</h4>
+    <hr/>
+    <form id="form" method="post" enctype="multipart/form-data">
+        <div class="in-form"><input id="file" type="file" name="file"/></div>
+        <div class="in-form text-right"><button id="submit" type="submit">import</button></div>
+    </form>
+    <p class="{% if error == 0 %}success{% else %}error{% endif %}">{{ info }}</p>
+    <p>File name: {{ name }}</p>
+    <p>File size: {{ size }} kb</p>
+    <p>handled rows: {{ handled_rows }}</p>
+</div>
+<script>
+    document.getElementById('submit').onclick = function() {
+        this.disabled = true;
+        var file = document.getElementById('file');
+        if ('' === file.value) {
+            alert('please select a file first.');
+            this.disabled = false;
+            return false;
+        }
+
+        var tmp = 'importing, please wait...';
+        if (undefined === this.innerText) {
+            this.textContent = tmp;
+        } else {
+            this.innerText = tmp;
+        }
+        this.blur();
+        this.submit();
+        file.disabled = true;
+    };
+</script>
 </body>
 </html>

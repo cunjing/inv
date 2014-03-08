@@ -105,7 +105,7 @@ class SignUpForm(forms.Form):
             user = User.objects.create_user(username, email, password)
             user.backend = 'account.backends.EmailAuthBackend'
             user.save()
-            profile = Profile.objects.create(user_id=user, user_type_id=user_type_id)
+            profile = Profile.objects.create(user_id=user.id, user_type_id=user_type_id)
             profile.save()
 
         return user

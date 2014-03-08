@@ -27,6 +27,7 @@ def privacy(request):
 @csrf_exempt
 def import_excel(request):
     data = {
+        'error': 1,
         'info': 'please select excel file to import.',
         'name': '',
         'size': 0,
@@ -34,12 +35,19 @@ def import_excel(request):
     }
 
     if request.method == 'POST':
-        f = request.FILES['file']
+        from django.utils.datastructures import MultiValueDictKeyError
+        try:
+            f = request.FILES['file']
+        except MultiValueDictKeyError:
+            return render_to_response('inv/import_excel.html', data)
+
         data['name'] = f.name
         data['size'] = f.size / 1024
         if 'xls' not in f.name and 'xlsx' not in f.name:
+            data['error'] = 2
             data['info'] = 'file type must be excel!'
         elif 0 == f.size:
+            data['error'] = 3
             data['info'] = 'file content is empty!'
         else:
             import xlrd
@@ -165,6 +173,7 @@ def import_excel(request):
                                                                   order=j-11,
                                                                   title=row[j])
 
-            data['info'] = 'importation completed.'
+            data['error'] = 0
+            data['info'] = 'import completed.'
 
     return render_to_response('inv/import_excel.html', data)

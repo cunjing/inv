@@ -33,7 +33,7 @@ class QuestionGroup(models.Model):
     title = models.CharField(max_length=256)
 
     def __unicode__(self):
-        return self.name
+        return self.title
 
 
 class QuestionSubGroup(models.Model):
@@ -50,7 +50,7 @@ class QuestionSubGroup(models.Model):
     title = models.CharField(max_length=256)
 
     def __unicode__(self):
-        return self.name
+        return self.title
 
 
 class Question(models.Model):
