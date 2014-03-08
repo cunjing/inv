@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from account.models import UserType
 
 
 class QuestionType(models.Model):
@@ -26,7 +27,7 @@ class QuestionGroup(models.Model):
     class Meta:
         db_table = 'matching_question_group'
 
-    user_type = models.PositiveSmallIntegerField()
+    user_type = models.ForeignKey(UserType)
     order = models.PositiveSmallIntegerField()
     name = models.CharField(max_length=40)
     title = models.CharField(max_length=256)
@@ -57,7 +58,6 @@ class Question(models.Model):
     question.
     """
 
-    user_type = models.PositiveSmallIntegerField()
     question_group = models.ForeignKey(QuestionGroup)
     question_sub_group = models.ForeignKey(QuestionSubGroup)
     question_type = models.ForeignKey(QuestionType)
@@ -76,6 +76,8 @@ class QuestionOfAnswerChoice(models.Model):
 
     class Meta:
         db_table = 'matching_question_of_answer_choice'
+        verbose_name = u'Question\'s answer choice'
+        verbose_name_plural = u'Question\'s answer choices'
 
     question = models.ForeignKey(Question)
     order = models.PositiveSmallIntegerField()
@@ -111,9 +113,9 @@ class AnswerText(models.Model):
 
     user = models.ForeignKey(User)
     question = models.ForeignKey(Question)
-    date_answered = models.DateTimeField()
+    date_answered = models.DateTimeField()  # date last answered
     order = models.PositiveSmallIntegerField(default=0)
-    answer = models.CharField(max_length=256)
+    answer = models.CharField(max_length=256)  # user can re-answer
 
     def __unicode__(self):
         return self.answer
@@ -147,7 +149,7 @@ class AnswerUpload(models.Model):
     user = models.ForeignKey(User)
     question = models.ForeignKey(Question)
     date_uploaded = models.DateTimeField()
-    date_answered = models.DateTimeField()  # date user last edit title
+    date_answered = models.DateTimeField()  # date user last edited title
     order = models.PositiveSmallIntegerField(default=0)
     size = models.PositiveIntegerField()
 
