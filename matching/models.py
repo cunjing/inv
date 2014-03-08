@@ -29,6 +29,7 @@ class QuestionGroup(models.Model):
     user_type = models.PositiveSmallIntegerField()
     order = models.PositiveSmallIntegerField()
     name = models.CharField(max_length=40)
+    title = models.CharField(max_length=256)
 
     def __unicode__(self):
         return self.name
