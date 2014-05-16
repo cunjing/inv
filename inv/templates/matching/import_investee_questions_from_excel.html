@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>import excel</title>
+<title>import investee questions from excel</title>
 <style>
     div.content {margin: 140px auto 0; width: 400px;}
     div.in-form {margin: 10px 0;}
@@ -14,11 +14,14 @@
 </head>
 <body>
 <div class="content">
-    <h4>IMPORT investee question excel TO SET BASIC DATA</h4>
+    <h4>IMPORT investee questions excel TO SET BASIC DATA</h4>
     <hr/>
     <form id="form" method="post" enctype="multipart/form-data">
         <div class="in-form"><input id="file" type="file" name="file"/></div>
-        <div class="in-form text-right"><button id="submit" type="submit">import</button></div>
+        <div class="in-form text-right">
+            <a href="/admin/">Cancel</a>
+            <button id="submit" type="submit">import</button>
+        </div>
     </form>
     <p class="{% if error == 0 %}success{% else %}error{% endif %}">{{ info }}</p>
     <p>File name: {{ name }}</p>

@@ -56,19 +56,17 @@ class SignUpForm(forms.Form):
     sign up form
     """
 
-    _user_type_id_allowed = [
-        ('', 'Account Type'),
-        (1, 'Investee'),
-        (2, 'Investor'),
-        (3, 'Service Provider'),
-        (4, 'Government'),
-    ]
+    _user_type_id_allowed = [('', 'Account Type'),
+                             (1, 'Investee'),
+                             (2, 'Investor'),
+                             (3, 'Service Provider'),
+                             (4, 'Government')]
 
-    user_type_id = forms.IntegerField(min_value=1, widget=forms.Select(attrs={
-        'class': 'form-control',
-        'required': True,
-        'tabindex': 1,
-    }, choices=_user_type_id_allowed))
+    user_type_id = forms.IntegerField(min_value=1,
+                                      widget=forms.Select(attrs={'class': 'form-control',
+                                                                 'required': True,
+                                                                 'tabindex': 1},
+                                                          choices=_user_type_id_allowed))
     # user_type_id = forms.ModelChoiceField(queryset=UserType.objects.all(), empty_label='Account Type', required=True)
 
     email = forms.EmailField(label='Email', max_length=75, min_length=4, widget=forms.EmailInput(attrs={
@@ -92,7 +90,7 @@ class SignUpForm(forms.Form):
 
     def create_user(self):
         """
-        create user and it's profile.
+        create a user with profile.
 
         @return (User)
         """

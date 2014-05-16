@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 
 import inv.views
 import account.urls
+import matching.urls
 
 from django.contrib import admin
 admin.autodiscover()
@@ -13,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^contact$', inv.views.contact),
     url(r'^terms$', inv.views.terms),
     url(r'^privacy$', inv.views.privacy),
-    url(r'^import/$', inv.views.import_excel),
-    url(r'^admin/', include(admin.site.urls)),
 )
 urlpatterns += account.urls.urlpatterns
+urlpatterns += matching.urls.urlpatterns
+urlpatterns += patterns('', url(r'^admin/', include(admin.site.urls)))
