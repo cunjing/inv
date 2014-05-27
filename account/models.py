@@ -21,7 +21,7 @@ class UserType(models.Model):
 class IdentityType(models.Model):
     """
     identity Type
-    secretary, manager, clerk
+    leader, secretary, manager, clerk
     identity type default 0 means Profile.leader == 0, and current user is a leader.
     when Profile.leader > 0, the field Profile.identity_type must be greater than 0.
     """

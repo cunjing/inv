@@ -76,8 +76,8 @@ class QuestionOfAnswerChoice(models.Model):
 
     class Meta:
         db_table = 'matching_question_of_answer_choice'
-        verbose_name = u'Question\'s answer choice'
-        verbose_name_plural = u'Question\'s answer choices'
+        verbose_name = u"Question's answer choice"
+        verbose_name_plural = u"Question's answer choices"
 
     question = models.ForeignKey(Question)
     order = models.PositiveSmallIntegerField()

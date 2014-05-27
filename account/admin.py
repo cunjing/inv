@@ -13,10 +13,10 @@ class ProfileInline(admin.StackedInline):
     can_delete = False
     verbose_name_plural = 'profile'
 
-    def formfield_for_choice_field(self, db_field, request=None, **kwargs):
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'leader':
-            kwargs['choices'][0] = (0, 'none')
-        return super(ProfileInline, self).formfield_for_choice_field(db_field, request, **kwargs)
+            kwargs['queryset'] = User.objects.filter(is_staff=0)
+        return super(ProfileInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class InvUserAdmin(UserAdmin):
