@@ -28,6 +28,7 @@ admin.site.register(QuestionSubGroup, QuestionSubGroupAdmin)
 
 
 class QuestionAdmin(admin.ModelAdmin):
+    list_per_page = 20
     list_display = ('question_group', 'question_sub_group', 'question_type', 'order', 'title')
     ordering = ('id',)
 
